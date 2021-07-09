@@ -1,9 +1,6 @@
 package br.com.alura.ecommerce;
 
-import org.apache.kafka.clients.producer.Callback;
-import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
@@ -13,25 +10,18 @@ import java.util.concurrent.ExecutionException;
 public class NewOrderMain {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        var producer = new KafkaProducer<String, String>(properties());
+        try (var dispatcher = new KafkaDispatcher()) {
+            for (int i = 0; i < 10; i++) {
+                var key = UUID.randomUUID().toString();
 
-        for (int i = 0; i < 10; i++) {
-            var key = UUID.randomUUID().toString();
-            var value = "132123,67523,1234";
-            var record = new ProducerRecord<>("ECOMMERCE_NEW_ORDER", key, value);
-            Callback callback = (data, ex) -> {
-                if (ex != null) {
-                    ex.printStackTrace();
-                    return;
-                }
-                System.out.println("sucesso enviando " + data.topic() + ":::partition " + data.partition() + "/ offset " + data.offset() + "/ timestamp " + data.timestamp());
-            };
-            producer.send(record, callback).get();
+                var value = "132123,67523,1234";
+                dispatcher.send("ECOMMERCE_NEW_ORDER", key, value);
 
-            var email = "Thank you for your order! We are processing your order!";
-            var emailRecord = new ProducerRecord<>("ECOMMERCE_SEND_EMAIL", key, email);
-            producer.send(emailRecord, callback).get();
+                var email = "Thank you for your order! We are processing your order!";
+                dispatcher.send("ECOMMERCE_SEND_EMAIL", key, email);
+            }
         }
+
 
     }
 

@@ -9,8 +9,10 @@ public class FraudDetectorService {
 
     public static void main(String[] args) {
         var fraudeService = new FraudDetectorService();
-        var service = new KafkaService(FraudDetectorService.class.getSimpleName(),"ECOMMERCE_NEW_ORDER", fraudeService::parse);
-        service.run();
+       try( var service = new KafkaService(FraudDetectorService.class.getSimpleName(),"ECOMMERCE_NEW_ORDER", fraudeService::parse)){
+           service.run();
+       }
+
     }
 
 
