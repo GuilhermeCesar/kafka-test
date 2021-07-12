@@ -15,7 +15,6 @@ import java.util.regex.Pattern;
 class KafkaService<T> implements Closeable {
     private final KafkaConsumer<String, T> consumer;
     private final ConsumerFunction parse;
-    private final Class<T> type;
 
 
     KafkaService(String groupId, String topic, ConsumerFunction parse, Class<T> type, Map<String, String> properties) {
@@ -31,7 +30,6 @@ class KafkaService<T> implements Closeable {
     private KafkaService(String groupId, ConsumerFunction parse, Class<T> type, Map<String, String> properties) {
         this.parse = parse;
         this.consumer = new KafkaConsumer<>(getProperties(type, groupId, properties));
-        this.type = type;
     }
 
     public void run() {
