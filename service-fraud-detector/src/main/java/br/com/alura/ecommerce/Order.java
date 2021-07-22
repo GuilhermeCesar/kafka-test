@@ -20,4 +20,13 @@ public class Order {
     public String getUserId() {
         return userId;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "userId='" + userId + '\'' +
+                ", orderId='" + orderId + '\'' +
+                ", amount=" + amount +
+                '}';
+    }
 }
