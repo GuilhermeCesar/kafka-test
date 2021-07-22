@@ -1,11 +1,9 @@
 package br.com.alura.ecommerce;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 public class FraudDetectorService {
@@ -50,11 +48,5 @@ public class FraudDetectorService {
 
     private boolean isFraud(Order order) {
         return order.getAmount().compareTo(new BigDecimal("4500")) >= 0;
-    }
-
-    private static Properties properties() {
-        var properties = new Properties();
-        properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, FraudDetectorService.class.getSimpleName());
-        return properties;
     }
 }

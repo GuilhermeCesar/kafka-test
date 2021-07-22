@@ -20,6 +20,7 @@
         <module>service-log</module>
         <module>service-new-order</module>
         <module>service-email</module>
+        <module>service-users</module>
     </modules>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
