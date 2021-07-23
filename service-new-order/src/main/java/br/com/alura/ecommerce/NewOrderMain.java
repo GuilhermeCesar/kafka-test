@@ -13,15 +13,14 @@ public class NewOrderMain {
                 var email = Math.random() + "@email.com";
                 for (int i = 0; i < 10; i++) {
 
-                    var userId = UUID.randomUUID().toString();
                     var orderId = UUID.randomUUID().toString();
                     var amount = BigDecimal.valueOf(Math.random() * 5000 + 1);
-                    var order = new Order(userId, orderId, amount, email);
 
-                    orderDispatcher.send("ECOMMERCE_NEW_ORDER", userId, order);
+                    var order = new Order(orderId, amount, email);
+                    orderDispatcher.send("ECOMMERCE_NEW_ORDER", email, order);
 
                     var emailCode = "Thank you for your order! We are processing your order!";
-                    emailDispatcher.send("ECOMMERCE_SEND_EMAIL", userId, emailCode);
+                    emailDispatcher.send("ECOMMERCE_SEND_EMAIL", email, emailCode);
 
                 }
             }
