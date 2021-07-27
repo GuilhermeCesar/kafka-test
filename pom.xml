@@ -22,6 +22,7 @@
         <module>service-email</module>
         <module>service-users</module>
         <module>servic-http-ecommerce</module>
+        <module>service-reding-report</module>
     </modules>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
