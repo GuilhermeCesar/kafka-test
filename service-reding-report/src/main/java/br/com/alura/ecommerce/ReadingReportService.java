@@ -19,19 +19,19 @@ public class ReadingReportService {
                 User.class, new HashMap<>())) {
             service.run();
         }
-
     }
 
 
-    private void parse(ConsumerRecord<String, User> record) throws IOException {
+    private void parse(ConsumerRecord<String, Message<User>> record) throws IOException {
         System.out.println("--------------------------------------");
         System.out.println("Processing report for " + record.value());
 
-        var user = record.value();
+        var message = record.value();
+        var user = message.getPayload();
         var target = new File(user.getRecordPath());
 
         IO.copyTo(SOURCE, target);
-        IO.append(target, "Create for"+ user.getUuid());
+        IO.append(target, "Create for" + user.getUuid());
 
         System.out.println("File crateded: " + target.getAbsolutePath());
 
