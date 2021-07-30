@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 class KafkaService<T> implements Closeable {
@@ -32,19 +33,22 @@ class KafkaService<T> implements Closeable {
         this.consumer = new KafkaConsumer<>(getProperties(groupId, properties));
     }
 
-    public void run() {
-        while (true) {
-            var records = consumer.poll(Duration.ofMillis(100));
-            if (!records.isEmpty()) {
-                System.out.println("Encontrei " + records.count() + " registros");
-                for (var record : records) {
-                    try {
-                        parse.consume(record);
-                    } catch (Exception e) {
-                        // only catches Exception because no matther which Exception
-                        // i want to recover and parse the next one
-                        // so far, just logging the exception for this message
-                        e.printStackTrace();
+    public void run() throws ExecutionException, InterruptedException {
+        try (var deadLetter = new KafkaDispatcher<>()) {
+            while (true) {
+                var records = consumer.poll(Duration.ofMillis(100));
+                if (!records.isEmpty()) {
+                    System.out.println("Encontrei " + records.count() + " registros");
+                    for (var record : records) {
+                        try {
+                            parse.consume(record);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            var message = record.value();
+                            deadLetter.send("ECOMMERCE_DEADLETTER", message.getId().toString(),
+                                    message.getId().continueWith("DeadLetter"),
+                                    new GsonSerializer().serialize("", message));
+                        }
                     }
                 }
             }

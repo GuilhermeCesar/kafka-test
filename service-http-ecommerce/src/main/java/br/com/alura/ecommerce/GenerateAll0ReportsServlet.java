@@ -20,7 +20,8 @@ public class GenerateAll0ReportsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            batchDispatcher.send("ECOMMERCE_SEND_MESSAGE_TO_ALL_USERS", "ECOMMERCE_USER_GENERATE_READING_REPORT",
+            batchDispatcher.send("ECOMMERCE_SEND_MESSAGE_TO_ALL_USERS",
+                    "ECOMMERCE_USER_GENERATE_READING_REPORT",
                     new CorrelationId(GenerateAll0ReportsServlet.class.getSimpleName()),
                     "ECOMMERCE_USER_GENERATE_READING_REPORT");
 
@@ -32,6 +33,5 @@ public class GenerateAll0ReportsServlet extends HttpServlet {
         } catch (InterruptedException e) {
             throw new ServletException(e);
         }
-
     }
 }
