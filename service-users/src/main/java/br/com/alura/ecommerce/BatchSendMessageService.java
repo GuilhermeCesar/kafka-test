@@ -53,10 +53,11 @@ public class BatchSendMessageService {
         System.out.println("Topic: " + message.getPayload());
 
         for (User user : getAllUsers()) {
-            userDispatcher.send(message.getPayload(),
+            userDispatcher.sendAsync(message.getPayload(),
                     user.getUuid(),
                     message.getId().continueWith(BatchSendMessageService.class.getSimpleName()),
                     user);
+            System.out.println("Acho que enviei para" + user);
         }
     }
 
