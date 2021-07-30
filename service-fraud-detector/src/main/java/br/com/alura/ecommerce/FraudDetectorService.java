@@ -18,7 +18,6 @@ public class FraudDetectorService {
                 new HashMap<>())) {
             service.run();
         }
-
     }
 
     private final KafkaDispatcher<Order> orderDispatcher = new KafkaDispatcher<>();
