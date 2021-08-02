@@ -21,10 +21,10 @@
         <module>service-new-order</module>
         <module>service-email</module>
         <module>service-users</module>
-        <module>servic-http-ecommerce</module>
+        <module>service-http-ecommerce</module>
         <module>service-reding-report</module>
         <module>service-email-new-order</module>
-        <module>commondatabase</module>
+        <module>common-database</module>
     </modules>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->

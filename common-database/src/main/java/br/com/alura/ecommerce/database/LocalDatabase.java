@@ -11,15 +11,14 @@ public class LocalDatabase {
     private final Connection connection;
 
     public LocalDatabase(String name) throws SQLException {
-        String url = "jdbc:sqlite:service-users/target/" + name + ".db";
+        String url = "jdbc:sqlite:common-database/target/" + name + ".db";
         this.connection = DriverManager.getConnection(url);
     }
 
     //yes, this is way tii generic
     //according to your database tool, avoid injection
-    public void createIfNotExists(String sql) {
-
-
+    public void createIfNotExists(String sql) throws SQLException {
+        connection.createStatement().execute(sql);
     }
 
     public Boolean update(String statement, String... params) throws SQLException {
