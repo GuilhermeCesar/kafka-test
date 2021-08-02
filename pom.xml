@@ -24,6 +24,7 @@
         <module>servic-http-ecommerce</module>
         <module>service-reding-report</module>
         <module>service-email-new-order</module>
+        <module>commondatabase</module>
     </modules>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
