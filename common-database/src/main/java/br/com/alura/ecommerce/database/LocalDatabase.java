@@ -38,4 +38,8 @@ public class LocalDatabase {
         return prepare(query, params)
                 .executeQuery();
     }
+
+    public void close() throws SQLException {
+        this.connection.close();
+    }
 }
